@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -6,7 +5,7 @@
 
     <groupId>de.bloxcrafter</groupId>
     <artifactId>JoinLeaveProxyLog</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.14</version>
     <packaging>jar</packaging>
 
     <name>JoinLeaveProxyLog</name>
@@ -52,8 +51,8 @@
 
     <repositories>
         <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <id>cloudnet-releases</id>
+            <url>https://repo.cloudnetservice.eu/repository/releases/</url>
         </repository>
     </repositories>
 
@@ -68,6 +67,11 @@
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>5.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.dytanic.cloudnet</groupId>
+            <artifactId>cloudnet-driver</artifactId>
+            <version>3.3.0-RELEASE</version>
         </dependency>
     </dependencies>
 </project>

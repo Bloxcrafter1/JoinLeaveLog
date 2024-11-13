@@ -3,6 +3,7 @@ package de.bloxcrafter.joinLeaveProxyLog;
 import de.bloxcrafter.joinLeaveProxyLog.listeners.Join;
 import de.bloxcrafter.joinLeaveProxyLog.listeners.Leave;
 import de.bloxcrafter.joinLeaveProxyLog.listeners.Switch;
+import de.bloxcrafter.joinLeaveProxyLog.util.DiscordWebhookUtil;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.config.Configuration;
@@ -24,7 +25,10 @@ public final class JoinLeaveProxyLog extends Plugin {
         instance = this;
         loadConfig();
 
-        getLogger().info("JoinLeaveProxyLog enabled");
+        getLogger().info("|#######################");
+        getLogger().info("| Schokiefy Log Plugin enabled! ;D");
+        getLogger().info("| Version: 1.0.14");
+        getLogger().info("|#######################");
 
         discordWebhookUrl = config.getString("discord.webhook-url");
 
@@ -32,12 +36,24 @@ public final class JoinLeaveProxyLog extends Plugin {
             getLogger().log(Level.WARNING, "Discord Webhook URL not found or empty in config.yml!");
         } else {
             getLogger().log(Level.INFO, "Discord Webhook URL loaded successfully: " + discordWebhookUrl);
+            sendStartupEmbed(getProxy().getName());
         }
 
         PluginManager pm = getProxy().getPluginManager();
         pm.registerListener(this, new Join());
         pm.registerListener(this, new Leave());
         pm.registerListener(this, new Switch());
+    }
+
+    @Override
+    public void onDisable() {
+        sendShutdownEmbed(getProxy().getName());
+
+        instance = null;
+        getLogger().info("|#######################");
+        getLogger().info("| Schokiefy Log Plugin disabled! :(");
+        getLogger().info("| Version: 1.0.14");
+        getLogger().info("|#######################");
     }
 
     public static JoinLeaveProxyLog getInstance() {
@@ -86,9 +102,21 @@ public final class JoinLeaveProxyLog extends Plugin {
         return discordWebhookUrl;
     }
 
-    @Override
-    public void onDisable() {
-        instance = null;
-        getLogger().info("JoinLeaveProxyLog disabled");
+    public void sendStartupEmbed(String proxy) {
+        String timestamp = DiscordWebhookUtil.getCurrentTimestamp();
+        String jsonPayload = String.format(
+                "{\"content\": null, \"embeds\": [{\"title\": \"Proxy Hochgefahren!\", \"description\": \"Die Proxy %s ist hochgefahren und kann absofort Spieler empfangen!\", \"color\": 4062976, \"footer\": {\"text\": \"SchokiefyNET - Proxy Log\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\"}], \"attachments\": []}",
+                proxy, timestamp
+        );
+        DiscordWebhookUtil.sendEmbed(discordWebhookUrl, jsonPayload);
+    }
+
+    public void sendShutdownEmbed(String proxy) {
+        String timestamp = DiscordWebhookUtil.getCurrentTimestamp();
+        String jsonPayload = String.format(
+                "{\"content\": null, \"embeds\": [{\"title\": \"Proxy Heruntergefahren!\", \"description\": \"Die Proxy %s ist heruntergefahren und kann absofort keine Spieler empfangen.\", \"color\": 16711680, \"footer\": {\"text\": \"SchokiefyNET - Proxy Log\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\"}], \"attachments\": []}",
+                proxy, timestamp
+        );
+        DiscordWebhookUtil.sendEmbed(discordWebhookUrl, jsonPayload);
     }
 }

@@ -4,7 +4,7 @@
   <groupId>de.bloxcrafter</groupId>
   <artifactId>JoinLeaveProxyLog</artifactId>
   <name>JoinLeaveProxyLog</name>
-  <version>1.0.0</version>
+  <version>1.0.14</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
@@ -38,8 +38,8 @@
   </build>
   <repositories>
     <repository>
-      <id>sonatype</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
+      <id>cloudnet-releases</id>
+      <url>https://repo.cloudnetservice.eu/repository/releases/</url>
     </repository>
   </repositories>
   <dependencies>
