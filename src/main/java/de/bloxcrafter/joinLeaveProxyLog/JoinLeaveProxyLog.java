@@ -51,7 +51,7 @@ public final class JoinLeaveProxyLog extends Plugin {
         getLogger().info("|#######################");
         getLogger().info("|");
         getLogger().info("| Join Leave Log started up...!");
-        getLogger().info("| Version: 2.0.0");
+        getLogger().info("| Version: 2.0.1");
         getLogger().info("| Author: Bloxcrafter");
         getLogger().info("|");
         getLogger().info("|#######################");
@@ -93,7 +93,7 @@ public final class JoinLeaveProxyLog extends Plugin {
         getLogger().info("|#######################");
         getLogger().info("|");
         getLogger().info("| Join Leave Log shuted down...!");
-        getLogger().info("| Version: 2.0.0");
+        getLogger().info("| Version: 2.0.1");
         getLogger().info("| Author: Bloxcrafter");
         getLogger().info("|");
         getLogger().info("|#######################");
@@ -147,5 +147,9 @@ public final class JoinLeaveProxyLog extends Plugin {
     public void reloadPluginConfig() {
         loadConfig();
         discordWebhookUrl = config.getString("discord.webhook-url");
+    }
+
+    public Configuration getPluginConfig() {
+        return config;
     }
 }

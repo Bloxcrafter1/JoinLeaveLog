@@ -36,7 +36,7 @@ public class Switch implements Listener {
     private void sendEmbed(String image, String group, String player, String proxy, String fromServer, String toServer) {
         String timestamp = DiscordWebhookUtil.getCurrentTimestamp();
         String jsonPayload = String.format(
-                "{\"content\": null, \"embeds\": [{\"title\": \"Jemand hat den Server gewechselt!\", \"description\": \"Gruppe %s Spieler %s ist über Proxy %s von Server %s zu Server %s gewechselt\", \"color\": 16776960, \"footer\": {\"text\": \"SchokiefyNET - Join/Leave Log\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\", \"thumbnail\": {\"url\": \"%s\"}}], \"attachments\": []}",
+                "{\"content\": null, \"embeds\": [{\"title\": \"Jemand hat den Server gewechselt!\", \"description\": \"Gruppe %s Spieler %s ist über Proxy %s von Server %s zu Server %s gewechselt\", \"color\": 16776960, \"footer\": {\"text\": \"Join/Leave Log - System\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\", \"thumbnail\": {\"url\": \"%s\"}}], \"attachments\": []}",
                 group, player, proxy, fromServer, toServer, timestamp, image
         );
         DiscordWebhookUtil.sendEmbed(webhookUrl, jsonPayload);

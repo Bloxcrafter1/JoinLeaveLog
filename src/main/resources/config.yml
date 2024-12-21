@@ -2,3 +2,8 @@
 
 discord:
   webhook-url: "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE"
+
+messages:
+  reloadmessage: "§bJoinLeaveLog §8» §aConfiguration File reloaded!"
+  nopermission: "§bJoinLeaveLog §8» §cYou don't have permission for this action!"
+  reloadfailed: "§bJoinLeaveLog §8» §cConfiguration File couldn't be reloaded! See console for more information!"
