@@ -1,5 +1,5 @@
 name: JoinLeave ProxyLog
-version: '1.0.14'
+version: '2.0.0'
 main: de.bloxcrafter.joinLeaveProxyLog.JoinLeaveProxyLog
 author: Bloxcrafter
-description: SurvivalSMP Mod
+description: Logs join and leave of a Player in Discord

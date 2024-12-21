@@ -23,12 +23,11 @@ public class DiscordWebhookUtil {
             }
 
             int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == 200) {
                 System.out.println("Embed sent successfully.");
             } else {
                 System.out.println("Failed to send embed. Response code: " + responseCode);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

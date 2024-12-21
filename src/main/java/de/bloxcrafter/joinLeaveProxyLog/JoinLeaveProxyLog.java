@@ -1,9 +1,9 @@
 package de.bloxcrafter.joinLeaveProxyLog;
 
+import de.bloxcrafter.joinLeaveProxyLog.commands.ReloadCommand;
 import de.bloxcrafter.joinLeaveProxyLog.listeners.Join;
 import de.bloxcrafter.joinLeaveProxyLog.listeners.Leave;
 import de.bloxcrafter.joinLeaveProxyLog.listeners.Switch;
-import de.bloxcrafter.joinLeaveProxyLog.util.DiscordWebhookUtil;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.config.Configuration;
@@ -16,57 +16,96 @@ import java.util.logging.Level;
 
 public final class JoinLeaveProxyLog extends Plugin {
 
+    // This is the instance of the Plugin
     private static JoinLeaveProxyLog instance;
-    private Configuration config;
+
+    // String of Discord WEBHOOK URL
     private String discordWebhookUrl;
 
-    @Override
-    public void onEnable() {
-        instance = this;
-        loadConfig();
+    // This is for the Config
+    private Configuration config;
 
-        getLogger().info("|#######################");
-        getLogger().info("| Schokiefy Log Plugin enabled! ;D");
-        getLogger().info("| Version: 1.0.14");
-        getLogger().info("|#######################");
 
-        discordWebhookUrl = config.getString("discord.webhook-url");
-
-        if (discordWebhookUrl == null || discordWebhookUrl.isEmpty()) {
-            getLogger().log(Level.WARNING, "Discord Webhook URL not found or empty in config.yml!");
-        } else {
-            getLogger().log(Level.INFO, "Discord Webhook URL loaded successfully: " + discordWebhookUrl);
-            sendStartupEmbed(getProxy().getName());
-        }
-
-        PluginManager pm = getProxy().getPluginManager();
-        pm.registerListener(this, new Join());
-        pm.registerListener(this, new Leave());
-        pm.registerListener(this, new Switch());
+    // This is for Get Discord WEBHOOK URL
+    public String getDiscordWebhookUrl() {
+        return discordWebhookUrl;
     }
 
-    @Override
-    public void onDisable() {
-        sendShutdownEmbed(getProxy().getName());
-
-        instance = null;
-        getLogger().info("|#######################");
-        getLogger().info("| Schokiefy Log Plugin disabled! :(");
-        getLogger().info("| Version: 1.0.14");
-        getLogger().info("|#######################");
-    }
-
+    // This is for the Configuration File (DON'T REMOVE)
     public static JoinLeaveProxyLog getInstance() {
         return instance;
     }
 
+
+    @Override
+    public void onEnable() {
+        // Plugin startup logic
+
+        // This is for the Instance
+        instance = this;
+
+        // This is for the Config
+        loadConfig();
+
+        // Started Message
+        getLogger().info("|#######################");
+        getLogger().info("|");
+        getLogger().info("| Join Leave Log started up...!");
+        getLogger().info("| Version: 2.0.0");
+        getLogger().info("| Author: Bloxcrafter");
+        getLogger().info("|");
+        getLogger().info("|#######################");
+
+        // Get Discord WEBHOOK URL
+        discordWebhookUrl = config.getString("discord.webhook-url");
+
+        // Check if Discord WEBHOOK URL is not empty and if its empty than you get a Warning
+        if (discordWebhookUrl != null && discordWebhookUrl.isEmpty()) {
+            getLogger().log(Level.INFO, "|#######################");
+            getLogger().log(Level.INFO, "|");
+            getLogger().log(Level.INFO, "|Discord Webhook URL loaded successfully: " + discordWebhookUrl + "");
+            getLogger().log(Level.INFO, "|");
+            getLogger().log(Level.INFO, "|#######################");
+        } else {
+            getLogger().log(Level.WARNING, "|#######################");
+            getLogger().log(Level.WARNING, "|");
+            getLogger().log(Level.WARNING, "|Discord Webhook URL not found or empty in config.yml! You can enter it and when your finsihed use ingame the command /joinleavelog reload!");
+            getLogger().log(Level.WARNING, "|");
+            getLogger().log(Level.WARNING, "|#######################");
+        }
+
+        // Register the Listeners
+        PluginManager pm = getProxy().getPluginManager();
+        pm.registerListener(this, new Join());
+        pm.registerListener(this, new Leave());
+        pm.registerListener(this, new Switch());
+
+        // Register the Command
+        getProxy().getPluginManager().registerCommand(this, new ReloadCommand());
+
+    }
+
+    @Override
+    public void onDisable() {
+        // Plugin shutdown logic
+
+        // Shuted down Message
+        getLogger().info("|#######################");
+        getLogger().info("|");
+        getLogger().info("| Join Leave Log shuted down...!");
+        getLogger().info("| Version: 2.0.0");
+        getLogger().info("| Author: Bloxcrafter");
+        getLogger().info("|");
+        getLogger().info("|#######################");
+    }
+
+    // This is the Load Config Method
     private void loadConfig() {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdir();
         }
 
         File configFile = new File(getDataFolder(), "config.yml");
-
         if (!configFile.exists()) {
             try {
                 configFile.createNewFile();
@@ -74,13 +113,18 @@ public final class JoinLeaveProxyLog extends Plugin {
                 config.set("discord.webhook-url", "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE");
                 saveConfig(config);
             } catch (IOException e) {
-                getLogger().log(Level.SEVERE, "Could not create config.yml!", e);
+                getLogger().log(Level.SEVERE, "|#######################");
+                getLogger().log(Level.SEVERE, "|");
+                getLogger().log(Level.SEVERE, "|Could not create config.yml!" , e);
+                getLogger().log(Level.SEVERE, "|");
+                getLogger().log(Level.SEVERE, "|#######################");
             }
         } else {
             config = getConfig();
         }
     }
 
+    // This is the Get Config Method
     private Configuration getConfig() {
         try {
             return ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
@@ -90,6 +134,7 @@ public final class JoinLeaveProxyLog extends Plugin {
         }
     }
 
+    // This is the Save Config Method
     private void saveConfig(Configuration config) {
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, new File(getDataFolder(), "config.yml"));
@@ -98,25 +143,9 @@ public final class JoinLeaveProxyLog extends Plugin {
         }
     }
 
-    public String getDiscordWebhookUrl() {
-        return discordWebhookUrl;
-    }
-
-    public void sendStartupEmbed(String proxy) {
-        String timestamp = DiscordWebhookUtil.getCurrentTimestamp();
-        String jsonPayload = String.format(
-                "{\"content\": null, \"embeds\": [{\"title\": \"Proxy Hochgefahren!\", \"description\": \"Die Proxy %s ist hochgefahren und kann absofort Spieler empfangen!\", \"color\": 4062976, \"footer\": {\"text\": \"SchokiefyNET - Proxy Log\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\"}], \"attachments\": []}",
-                proxy, timestamp
-        );
-        DiscordWebhookUtil.sendEmbed(discordWebhookUrl, jsonPayload);
-    }
-
-    public void sendShutdownEmbed(String proxy) {
-        String timestamp = DiscordWebhookUtil.getCurrentTimestamp();
-        String jsonPayload = String.format(
-                "{\"content\": null, \"embeds\": [{\"title\": \"Proxy Heruntergefahren!\", \"description\": \"Die Proxy %s ist heruntergefahren und kann absofort keine Spieler empfangen.\", \"color\": 16711680, \"footer\": {\"text\": \"SchokiefyNET - Proxy Log\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\"}], \"attachments\": []}",
-                proxy, timestamp
-        );
-        DiscordWebhookUtil.sendEmbed(discordWebhookUrl, jsonPayload);
+    // This is the Reload Config Method
+    public void reloadPluginConfig() {
+        loadConfig();
+        discordWebhookUrl = config.getString("discord.webhook-url");
     }
 }
