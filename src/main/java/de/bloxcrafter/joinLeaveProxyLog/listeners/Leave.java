@@ -35,7 +35,7 @@ public class Leave implements Listener {
     private void sendEmbed(String image, String group, String player, String proxy, String server) {
         String timestamp = DiscordWebhookUtil.getCurrentTimestamp();
         String jsonPayload = String.format(
-                "{\"content\": null, \"embeds\": [{\"title\": \"Jemand ist geleaved!\", \"description\": \"Gruppe %s Spieler %s ist über Proxy %s von Server %s geleaved\", \"color\": 16711680, \"footer\": {\"text\": \"Join/Leave Log - System\", \"icon_url\": \"https://cdn.discordapp.com/attachments/1004149482256093306/1305163875301195776/Schokiefy.Clear.png\"}, \"timestamp\": \"%s\", \"thumbnail\": {\"url\": \"%s\"}}], \"attachments\": []}",
+                "{\"content\": null, \"embeds\": [{\"title\": \"Jemand ist geleaved!\", \"description\": \"Gruppe %s Spieler %s ist über Proxy %s von Server %s geleaved\", \"color\": 16711680, \"footer\": {\"text\": \"Join/Leave Log - System\", \"icon_url\": \"https://media.discordapp.net/attachments/1122578897335226450/1320075341133381682/JoinLeaveLogLOGO.png?ex=67684777&is=6766f5f7&hm=91c46bec2caf306fee1e1c1e47fd5c4f166ae1301274a93801b03b750b7ec883&=&format=webp&quality=lossless&width=588&height=588\"}, \"timestamp\": \"%s\", \"thumbnail\": {\"url\": \"%s\"}}], \"attachments\": []}",
                 group, player, proxy, server, timestamp, image
         );
         DiscordWebhookUtil.sendEmbed(webhookUrl, jsonPayload);
